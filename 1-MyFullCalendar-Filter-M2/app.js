@@ -53,11 +53,11 @@ var eventsArray = [
     {
       title: "Birthday Party",
       start: "2020-09-13T07:00:00",
-    }
+    },
   ],
 ];
 
-function displayCalendar(eventIndex) {
+function displayCalendar(eventArr) {
   var calendarEl = document.getElementById("calendar");
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -89,18 +89,18 @@ function displayCalendar(eventIndex) {
     },
     editable: true,
     dayMaxEvents: true, // allow "more" link when too many events
-    events: eventsArray[eventIndex],
+    events: eventArr,
   });
-
   calendar.render();
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  displayCalendar(0);
+  displayCalendar(null);
 });
 
 document
   .getElementById("eventSelector")
   .addEventListener("change", function () {
-    displayCalendar(this.value);
+    let currentEvents=eventsArray[this.value];
+    displayCalendar(currentEvents);
   });
