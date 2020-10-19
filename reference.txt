@@ -1,0 +1,15 @@
+https://fullcalendar.io
+https://fullcalendar.io/#demos
+
+https://therichpost.com/category/fullcalendar/
+https://therichpost.com/javascript-fullcalendar-with-custom-filters/
+https://dev.to/ajaydeveloper/javascript-fullcalendar-with-custom-filters-lnj
+
+https://forums.asp.net/t/2126516.aspx?Filtering+events+from+database+using+Jquery+fullcalender+in+asp+net+web+method+after+dropdown+selection+change
+
+https://stackoverflow.com/questions/6641355/jquery-fullcalendar-event-filtering
+http://www.mikesmithdev.com/demo-fullcalendar-with-event-filtering/
+http://www.mikesmithdev.com/blog/jquery-full-calendar/
+https://codepen.io/adier/pen/jJqxYB
+
+https://yiengly.wordpress.com/2019/04/25/adding-filters-and-search-to-fullcalendar-events/

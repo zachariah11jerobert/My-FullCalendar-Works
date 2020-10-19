@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <link href="../Css/fullcalendar.css" rel="stylesheet" />
+    <link href="../Css/fullcalendar.print.css" rel="stylesheet" />
+    <script src="../Script/jquery-1.8.2.min.js"></script>
+    <script src="../Script/fullcalendar.js"></script>
+    <style>
+      body {
+        margin: 40px 10px;
+        padding: 0;
+        font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+        font-size: 14px;
+      }
+
+      #fullcal {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <select id="location">
+      <option value="all">All</option>
+      <option value="city1">city1</option>
+      <option value="city2">city2</option>
+      <option value="city3">city3</option>
+    </select>
+    <div id="fullcal"></div>
+  </body>
+
+  <script type="text/javascript">
+    jQuery(document).ready(function () {
+      $("#fullcal").fullCalendar({
+        header: {
+          left: "prev,next today",
+          center: "title",
+          right: "month,basicWeek,basicDay",
+        },
+        defaultView: "agendaDay",
+        editable: true,
+        allDaySlot: false,
+        selectable: true,
+        slotMinutes: 15,
+      });
+      $("#location").on("change", function () {
+        InItCal($("#location option:selected").val());
+        // $("#fullcal").fullCalendar('removeEvents');
+        //$("#fullcal").fullCalendar('addEventSource', event);
+        //$("#fullcal").fullCalendar('rerenderEvents');
+      });
+      function InItCal(loc) {
+        $.ajax({
+          type: "POST",
+          url:
+            "/Test/Filtering events from database using Jquery fullcalender.aspx/filter",
+          data: "{'location': '" + loc + "'}",
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          success: OnSuccess,
+          failure: function (response) {
+            alert("fail");
+            //alert(response.d);
+          },
+        });
+        function OnSuccess(response) {
+          alert(response.d);
+          $("#fullcal").fullCalendar({
+            header: {
+              left: "prev,next today",
+              center: "title",
+              right: "month,basicWeek,basicDay",
+            },
+            defaultDate: "2016-09-12",
+            //editable: true,
+            displayEventTime: false, // hide event time
+            eventLimit: true, // allow "more" link when too many events
+            //events:[{ "id": 1, "title": "EventName 1", "start": "2017-08-04", "end": "2017-08-07", "City": "city1" }]
+            events: $.map(response.d, function (item, i) {
+              var event = new Object();
+              event.id = item.id;
+              event.start = new Date(item.start);
+              event.end = new Date(item.end);
+              event.title = item.title;
+              return event;
+            }),
+          });
+        }
+      }
+    });
+  </script>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <div class="e1Div">
+        <input type="checkbox" checked="checked" name="e1" id="e1" />
+        <label for="e1">Event Type 1</label>
+      </div>
+      <div class="e2Div">
+        <input type="checkbox" checked="checked" name="e2" id="e2" />
+        <label for="e2">Event Type 2</label>
+      </div>
+      <div class="e3Div">
+        <input type="checkbox" checked="checked" name="e3" id="e3" />
+        <label for="e3">Event Type 3</label>
+      </div>
+    </div>
+
+    <div id="calendar"></div>
+
+    <script>
+      var curSource = new Array();
+      //first source uses querystring to determine what events to pull back
+      curSource[0] =
+        "/hackyjson/cal?e1=" +
+        $("#e1").is(":checked") +
+        "&e2=" +
+        $("#e2").is(":checked");
+      //second source just returns all events
+      curSource[1] = "/hackyjson/anothercal/";
+      var newSource = new Array(); //we'll use this later
+
+      $(document).ready(function () {
+        $("#eventFilterCalendar").fullCalendar({
+          eventSources: [curSource[0], curSource[1]],
+          header: {
+            left: "",
+            center: "prev title next",
+            right: "",
+          },
+          theme: true,
+          eventRender: function (event, element) {
+            element.attr("href", "javascript:void(0);");
+          },
+        });
+
+        $("#e1, #e2, #e3").change(function () {
+          //get current status of our filters into newSource
+          newSource[0] =
+            "/hackyjson/cal?e1=" +
+            $("#e1").is(":checked") +
+            "&e2=" +
+            $("#e2").is(":checked");
+          newSource[1] = $("#e3").is(":checked")
+            ? "/hackyjson/anothercal/"
+            : "";
+
+          //remove the old eventSources
+          $("#eventFilterCalendar").fullCalendar(
+            "removeEventSource",
+            curSource[0]
+          );
+          $("#eventFilterCalendar").fullCalendar(
+            "removeEventSource",
+            curSource[1]
+          );
+          $("#eventFilterCalendar").fullCalendar("refetchEvents");
+
+          //attach the new eventSources
+          $("#eventFilterCalendar").fullCalendar(
+            "addEventSource",
+            newSource[0]
+          );
+          $("#eventFilterCalendar").fullCalendar(
+            "addEventSource",
+            newSource[1]
+          );
+          $("#eventFilterCalendar").fullCalendar("refetchEvents");
+
+          curSource[0] = newSource[0];
+          curSource[1] = newSource[1];
+        });
+      });
+    </script>
+  </body>
+</html>
