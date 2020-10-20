@@ -17,7 +17,7 @@ var eventsArray = [
     {
       groupId: 999,
       title: "Repeating Event",
-      start: "2020-09-16T16:00:00",
+      start: "2020-10-16T16:00:00",
     },
   ],
   [
@@ -91,7 +91,13 @@ function displayCalendar(eventArr) {
     dayMaxEvents: true, // allow "more" link when too many events
     events: eventArr,
   });
+  calendar.addEvent({
+    title: 'dynamic event',
+    start: 2020-09-20,
+  })
   calendar.render();
+  //console.log(calendar.getEvents());
+  calendar.setOption('locale', 'fr');
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -102,5 +108,6 @@ document
   .getElementById("eventSelector")
   .addEventListener("change", function () {
     let currentEvents=eventsArray[this.value];
+    console.log(currentEvents)
     displayCalendar(currentEvents);
   });
